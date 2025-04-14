@@ -1,0 +1,55 @@
+<div class="container-fluid text-center">
+    <br>
+    @if(showRegister){
+        <h1>Registrarse</h1>
+    } @else{
+        <h1>Iniciar Sesion</h1>
+    }
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        @if ((email?.hasError("required") || email?.hasError("email")) && email?.touched) {
+            <div>
+                <p class="text-danger">El email es invalido</p>
+            </div>
+        }
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+            <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        @if (password?.hasError("required") && password?.touched) {
+            <div>
+                <p class="text-danger">Contraseña incorrecta</p>
+            </div>
+        }
+        @if ((password?.hasError("required") || password?.hasError("minlength")) && password?.touched) {
+            <div>
+                <p class="text-danger">Contraseña incorrecta</p>
+            </div>
+        }
+        <button type="submit" class="btn btn-primary">
+            @if (showRegister) {
+                Registrarse
+            } @else {
+                Iniciar Sesion
+            }
+        </button>
+    </form>
+    <br>
+    <button type="button" class="btn btn-primary" (click)="loginGoogle()">Iniciar con Google</button>
+    <br><br>
+    @if(showRegister){
+        <span>Ya tienes cuenta? 
+            <a (click)="toggleRegister()" class="link-primary">Inicia Sesion</a>
+        </span>
+    } @else {
+        <span>No tienes cuenta? 
+            <a (click)="toggleRegister()" class="link-primary">Registrate</a>
+        </span>
+    }
+ 
+
+</div>

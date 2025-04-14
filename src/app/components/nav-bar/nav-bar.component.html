@@ -1,0 +1,40 @@
+<div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" routerLink="/home" routerLinkActive="active">OverPractice</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" routerLink="/nosotros" routerLinkActive="active">Nosotros</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/api" routerLinkActive="active">API</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/registro-product" routerLinkActive="active">Registro Producto</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/ver-product" routerLinkActive="active">Ver Productos</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                @if (getUser()) {
+                  <button class="btn btn-danger" type="button" (click)="logout()">
+                    Cerrar Sesión
+                  </button>
+                } @else {
+                  <button class="btn btn-outline-success" type="button" routerLink="/login" routerLinkActive="active">
+                    Iniciar Sesión
+                  </button>
+                }
+         
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+</div>

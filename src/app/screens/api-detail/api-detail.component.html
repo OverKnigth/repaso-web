@@ -1,0 +1,18 @@
+<div class="container text-center">
+  <h1>Detalles de la Cerveza</h1>
+  <div class="d-flex justify-content-center">
+    <div class="container text-center">
+      <div class="row align-items-center">
+        <div class="col">
+          <img src="{{ cerveza!.image }}" height="500px" width="500px" />
+        </div>
+        <div class="col">
+          <h1>Nombre: {{ cerveza!.name }}</h1>
+          <h2>Precio: {{ cerveza!.price }}</h2>
+          <h2>Calificacion: {{ cerveza!.rating.average.toFixed(2) }}</h2>
+          <h2>Vistas: {{ cerveza!.rating.reviews }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
