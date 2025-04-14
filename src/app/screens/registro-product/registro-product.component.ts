@@ -17,62 +17,48 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RegistroProductComponent {
   productForm: FormGroup;
-  productId: string | null = null;
+  productId: string | null;
 
   constructor(
-    private productService: ProductsService,
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private productService: ProductsService
   ) {
-    this.productForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      price: ['', [Validators.required, Validators.min(0)]],
-      description: ['', [Validators.required]],
-    });
-  }
-
-  ngOnInit() {
     this.productId = this.route.snapshot.paramMap.get('id');
+    this.productForm = this.fb.group({
+      name: ['', Validators.required],
+      price: ['', [Validators.required, Validators.min(0)]],
+      description: ['', Validators.required],
+    });
 
+    // Si hay ID, es edición
     if (this.productId) {
       this.productService
         .getProductById(this.productId)
         .subscribe((product) => {
-          if (product) {
-            this.productForm.patchValue(product); // Llena el formulario
-          }
+          if (product) this.productForm.patchValue(product);
         });
     }
   }
 
   guardarProducto() {
-    if (this.productForm.valid) {
-      const nuevoProducto = this.productForm.value;
+    if (this.productForm.invalid) return;
 
-      if (this.productId) {
-        // Editar producto existente
-        this.productService
-          .updateProduct(this.productId, nuevoProducto)
-          .then(() => {
-            console.log('Producto actualizado correctamente');
-          })
-          .catch((error) => {
-            console.error('Error al actualizar el producto:', error);
-          });
-      } else {
-        // Crear nuevo producto
-        this.productService
-          .addProduct(nuevoProducto)
-          .then(() => {
-            console.log('Producto guardado correctamente');
-            this.productForm.reset();
-          })
-          .catch((error) => {
-            console.error('Error al guardar el producto:', error);
-          });
-      }
+    const data = this.productForm.value;
+
+    if (this.productId) {
+      this.productService
+        .updateProduct(this.productId, data)
+        .then(() => console.log('Producto actualizado'))
+        .catch((err) => console.error('Error al actualizar:', err));
     } else {
-      console.log('Formulario no válido');
+      this.productService
+        .addProduct(data)
+        .then(() => {
+          console.log('Producto guardado');
+          this.productForm.reset();
+        })
+        .catch((err) => console.error('Error al guardar:', err));
     }
   }
 }
